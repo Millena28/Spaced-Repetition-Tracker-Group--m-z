@@ -4,9 +4,27 @@
 // Note that when running locally, in order to open a web page which uses modules, you must serve the directory over HTTP e.g. with https://www.npmjs.com/package/http-server
 // You can't open the index.html file using a file:// URL.
 
-import { getUserIds } from "./common.mjs";
+import { getUserIDs } from "./common.mjs";
+import { addData } from "./storage.mjs";
+
+document.getElementById("form-data").style.display = "none"; // making the form hide as default
+
+const ids = getUserIDs();
+function userDropdown(){
+  let userDropdownList = document.getElementById("user-dropDown");
+  for(let i = 0; i< ids.length; i++){
+    let newOption = document.createElement("option");
+    newOption.value = ids[i];
+    newOption.id = ids[i];
+    newOption.innerHTML = `User ${ids[i]}`;
+    userDropdownList.append(newOption)
+  }
+
+  
+}
+
+
 
 window.onload = function () {
-  const users = getUserIds();
-  document.querySelector("body").innerText = `There are ${users.length} users`;
+  userDropdown();
 };
