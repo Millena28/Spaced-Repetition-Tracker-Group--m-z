@@ -4,9 +4,9 @@ export function addingToStorage(){
 
     const formData = document.getElementById("form-data");
     formData.addEventListener("submit", (e) => {
-        e.preventDefault();
-        let topicValue = document.getElementById("topic").value;
-        let dateValue = document.getElementById("datePicker").value;
+        e.preventDefault(); 
+        let topicValue = document.getElementById("topic").value; // getting the value of topic input
+        let dateValue = document.getElementById("datePicker").value; // getting the value of date input
         
         const userDropdownList = document.getElementById("user-dropDown");
         const currentUserId = userDropdownList.value; // getting the user id for this function 
@@ -43,25 +43,23 @@ export function addingToStorage(){
         console.log(fullData);
         addData(currentUserId, fullData);
         
-        topicValue = "";
-        dateValue = new Date().toISOString().split('T')[0];
-        document.getElementById("topic").value = "";
-        document.getElementById("datePicker").value = new Date().toISOString().split('T')[0];
-        displayAgendas(currentUserId)
+        document.getElementById("topic").value = ""; // setting "" to topic input after adding data to localstorage
+        document.getElementById("datePicker").value = new Date().toISOString().split('T')[0];// setting today's date for date input after adding data to localstorage
+        displayAgendas(currentUserId);
     })
 }
 
 export function displayAgendas(currentUserId){
-    const data = getData(currentUserId);
-    const ulList = document.getElementById("ulListAgendas");
-    ulList.innerHTML = "";
+    const data = getData(currentUserId); // getting data from the local storage for current user
+    const ulList = document.getElementById("ulListAgendas"); // accessing to <ul> in html
+    ulList.innerHTML = ""; // setting nothing to ul because we want to display the data we just got from localstorage
 
-    if(!data){
+    if(!data){ // if there is no data for that user then shows there is no agenda
         const li = document.createElement("li");
         li.innerHTML = 'There is no agenda!';
         ulList.appendChild(li);
     }
-    else{
+    else{ // else it will display all of them on by one by creating <li> 
         for(let i = 0; i < data.length; i++){
             const li = document.createElement("li");
             li.innerHTML = `${data[i].topic} - ${data[i].date}`;

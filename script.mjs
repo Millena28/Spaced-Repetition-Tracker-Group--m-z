@@ -14,8 +14,8 @@ let datePickerDefault = document.getElementById("datePicker"); //set todays date
 datePickerDefault.value = new Date().toISOString().split('T')[0];
 
 
-const ids = getUserIDs();
-var currentUserId = null;
+const ids = getUserIDs(); // assigning the list of users to ids
+var currentUserId = null; // defining a global currentUserId variable for tracking the current user
 
 function userDropdown(){
   let userDropdownList = document.getElementById("user-dropDown");
@@ -28,12 +28,11 @@ function userDropdown(){
 
   userDropdownList.addEventListener("change", ()=> {
     document.getElementById("form-data").style.display = ""; // showing the form after a user is selected
-    document.getElementById("ulListAgendas").innerHTML = ""; 
-    const opt = userDropdownList.value;
-    currentUserId = opt;
+    const opt = userDropdownList.value; // getting the current uses value = id
+    currentUserId = opt; // assigning the user value = id to currentUserId which is a global variable
     // clearData(currentUserId);
     console.log(currentUserId);
-    displayAgendas(currentUserId);
+    displayAgendas(currentUserId); //when selecting an user it will display the user's agendas
   })
 
 }
@@ -45,8 +44,6 @@ window.onload = function () {
   userDropdown();
   addingToStorage();
   
-  // localStorage.removeItem("stored-data-user-null");
-  // localStorage.removeItem("stored-data-user-undefined");
 
   
 };
