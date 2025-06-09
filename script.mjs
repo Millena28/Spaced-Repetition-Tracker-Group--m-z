@@ -6,7 +6,7 @@
 
 import { getUserIDs } from "./common.mjs";
 import { addData, getData, clearData } from "./storage.mjs";
-import{ addingToStorage } from "./addingData.mjs";
+import{ addingToStorage, displayAgendas } from "./addingData.mjs";
 
 document.getElementById("form-data").style.display = "none"; // making the form hide as default
 
@@ -28,9 +28,12 @@ function userDropdown(){
 
   userDropdownList.addEventListener("change", ()=> {
     document.getElementById("form-data").style.display = ""; // showing the form after a user is selected
-    currentUserId = userDropdownList.value; // getting the current user / selected user`s id
-    console.log(currentUserId)
-    
+    document.getElementById("ulListAgendas").innerHTML = ""; 
+    const opt = userDropdownList.value;
+    currentUserId = opt;
+    // clearData(currentUserId);
+    console.log(currentUserId);
+    displayAgendas(currentUserId);
   })
 
 }
@@ -41,5 +44,9 @@ function userDropdown(){
 window.onload = function () {
   userDropdown();
   addingToStorage();
-  // clearData(currentUserId)
+  
+  // localStorage.removeItem("stored-data-user-null");
+  // localStorage.removeItem("stored-data-user-undefined");
+
+  
 };

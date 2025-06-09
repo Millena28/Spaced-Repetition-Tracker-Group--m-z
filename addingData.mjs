@@ -1,12 +1,16 @@
 import { addData, getData } from "./storage.mjs";
 
-export function addingToStorage(currentUserId){
+export function addingToStorage(){
 
     const formData = document.getElementById("form-data");
     formData.addEventListener("submit", (e) => {
         e.preventDefault();
         let topicValue = document.getElementById("topic").value;
         let dateValue = document.getElementById("datePicker").value;
+        
+        const userDropdownList = document.getElementById("user-dropDown");
+        const currentUserId = userDropdownList.value; // getting the user id for this function 
+        console.log(currentUserId, "adding function")
 
         const week = new Date(dateValue);
         week.setDate(week.getDate() + 7);
@@ -36,7 +40,6 @@ export function addingToStorage(currentUserId){
                 date: dates[i]
             })
         }
-        const dataobj = {topic: topicValue, date: dateValue}
         console.log(fullData);
         addData(currentUserId, fullData);
         
@@ -44,10 +47,26 @@ export function addingToStorage(currentUserId){
         dateValue = new Date().toISOString().split('T')[0];
         document.getElementById("topic").value = "";
         document.getElementById("datePicker").value = new Date().toISOString().split('T')[0];
-        const data = getData(currentUserId);
-        console.log("get data   ", data)
+        displayAgendas(currentUserId)
     })
 }
 
+export function displayAgendas(currentUserId){
+    const data = getData(currentUserId);
+    const ulList = document.getElementById("ulListAgendas");
+    ulList.innerHTML = "";
 
+    if(!data){
+        const li = document.createElement("li");
+        li.innerHTML = 'There is no agenda!';
+        ulList.appendChild(li);
+    }
+    else{
+        for(let i = 0; i < data.length; i++){
+            const li = document.createElement("li");
+            li.innerHTML = `${data[i].topic} - ${data[i].date}`;
+            ulList.appendChild(li);
+        }
+    }
+}
 
