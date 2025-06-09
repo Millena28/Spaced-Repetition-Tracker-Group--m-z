@@ -5,26 +5,45 @@
 // You can't open the index.html file using a file:// URL.
 
 import { getUserIDs } from "./common.mjs";
-import { addData } from "./storage.mjs";
+import { addData, getData, clearData } from "./storage.mjs";
+import{ addingToStorage, displayAgendas } from "./addingData.mjs";
 
 document.getElementById("form-data").style.display = "none"; // making the form hide as default
 
-const ids = getUserIDs();
+let datePickerDefault = document.getElementById("datePicker"); //set todays date as default in the date picker input
+datePickerDefault.value = new Date().toISOString().split('T')[0];
+
+
+const ids = getUserIDs(); // assigning the list of users to ids
+var currentUserId = null; // defining a global currentUserId variable for tracking the current user
+
 function userDropdown(){
   let userDropdownList = document.getElementById("user-dropDown");
-  for(let i = 0; i< ids.length; i++){
+  for(let i = 0; i< ids.length; i++){  // adding users to the dropDown
     let newOption = document.createElement("option");
     newOption.value = ids[i];
-    newOption.id = ids[i];
     newOption.innerHTML = `User ${ids[i]}`;
     userDropdownList.append(newOption)
   }
 
-  
+  userDropdownList.addEventListener("change", ()=> {
+    document.getElementById("form-data").style.display = ""; // showing the form after a user is selected
+    const opt = userDropdownList.value; // getting the current uses value = id
+    currentUserId = opt; // assigning the user value = id to currentUserId which is a global variable
+    // clearData(currentUserId);
+    console.log(currentUserId);
+    displayAgendas(currentUserId); //when selecting an user it will display the user's agendas
+  })
+
 }
+
 
 
 
 window.onload = function () {
   userDropdown();
+  addingToStorage();
+  
+
+  
 };
