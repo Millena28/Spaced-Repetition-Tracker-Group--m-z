@@ -5,14 +5,19 @@
 // You can't open the index.html file using a file:// URL.
 
 import { getUserIDs } from "./common.mjs";
-import { addData } from "./storage.mjs";
+import { addData, getData } from "./storage.mjs";
+import{ addingToStorage } from "./addingData.mjs";
 
-document.getElementById("form-data").style.display = "none"; // making the form hide as default
+document.getElementById("form-data").style.display = ""; // making the form hide as default
+
+let datePickerDefault = document.getElementById("datePicker"); //set todays date as default in the date picker input
+datePickerDefault.value = new Date().toISOString().split('T')[0];
+
 
 const ids = getUserIDs();
 function userDropdown(){
   let userDropdownList = document.getElementById("user-dropDown");
-  for(let i = 0; i< ids.length; i++){
+  for(let i = 0; i< ids.length; i++){  // adding users to the dropDown
     let newOption = document.createElement("option");
     newOption.value = ids[i];
     newOption.id = ids[i];
@@ -20,11 +25,17 @@ function userDropdown(){
     userDropdownList.append(newOption)
   }
 
-  
+  userDropdownList.addEventListener("change", ()=> {
+    const selectedUserID = userDropdownList.value; // getting the current user / selected user`s id
+    console.log(selectedUserID)
+  })
+
 }
+
 
 
 
 window.onload = function () {
   userDropdown();
+  addingToStorage();
 };
