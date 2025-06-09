@@ -1,15 +1,12 @@
-import { addData } from "./storage.mjs";
+import { addData, getData } from "./storage.mjs";
 
-const topic = "Python";
-const datePicker = new Date().toISOString().split('T')[0];
-console.log(datePicker)
-export function addingToStorage(){
+export function addingToStorage(currentUserId){
 
     const formData = document.getElementById("form-data");
     formData.addEventListener("submit", (e) => {
         e.preventDefault();
-        const topicValue = document.getElementById("topic").value;
-        const dateValue = document.getElementById("datePicker").value;
+        let topicValue = document.getElementById("topic").value;
+        let dateValue = document.getElementById("datePicker").value;
 
         const week = new Date(dateValue);
         week.setDate(week.getDate() + 7);
@@ -39,7 +36,18 @@ export function addingToStorage(){
                 date: dates[i]
             })
         }
-        console.log(fullData)
+        const dataobj = {topic: topicValue, date: dateValue}
+        console.log(fullData);
+        addData(currentUserId, fullData);
+        
+        topicValue = "";
+        dateValue = new Date().toISOString().split('T')[0];
+        document.getElementById("topic").value = "";
+        document.getElementById("datePicker").value = new Date().toISOString().split('T')[0];
+        const data = getData(currentUserId);
+        console.log("get data   ", data)
     })
 }
+
+
 
