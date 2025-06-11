@@ -66,7 +66,7 @@ export function displayAgendas(currentUserId){
         for(let i = 0; i < data.length; i++){
             const li = document.createElement("li");
 
-            const formattedDate = new Date(data[i].date).toLocaleDateString("en-GB", {
+             const formattedDate = new Date(data[i].date).toLocaleDateString("en-GB", {
                 day: "numeric",
                 month: "long",
                 year: "numeric"
