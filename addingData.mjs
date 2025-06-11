@@ -58,13 +58,36 @@ export function displayAgendas(currentUserId){
         const li = document.createElement("li");
         li.innerHTML = 'There is no agenda!';
         ulList.appendChild(li);
+        return;
     }
-    else{ // else it will display all of them on by one by creating <li> 
-        for(let i = 0; i < data.length; i++){
+    const today = new Date();
+    today.setHours(0,0,0,0); // this help us normalize to midnight to help us only compare the dates only.
+
+    const upcomingItems = data.filter(item => {
+        const itemDate = new Date(item.date);
+        itemDate.setHours(0,0,0,0);
+        return itemDate >= today;
+    });
+    if (upcomingItems.length === 0) {
+        const li = document.createElement("li");
+        li.textContent = 'There is no upcoming agenda!';
+        ulList.appendChild(li);
+        return;
+    }
+
+    upcomingItems.sort((a,b) => new Date(a.date) - new Date(b.date)); // this sorts data by date ascending .
+
+    // else{ // else it will display all of them on by one by creating <li> 
+        for(let i = 0; i < upcomingItems.length; i++){
             const li = document.createElement("li");
-            li.innerHTML = `${data[i].topic} - ${data[i].date}`;
+
+             const formattedDate = new Date(upcomingItems[i].date).toLocaleDateString("en-GB", {
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+                });
+            
+            li.innerHTML = `${upcomingItems[i].topic} - ${formattedDate}`;
             ulList.appendChild(li);
         }
     }
-}
-
