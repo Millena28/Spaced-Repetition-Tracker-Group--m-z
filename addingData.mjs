@@ -58,13 +58,21 @@ export function displayAgendas(currentUserId){
         const li = document.createElement("li");
         li.innerHTML = 'There is no agenda!';
         ulList.appendChild(li);
+        return;
     }
-    else{ // else it will display all of them on by one by creating <li> 
+    data.sort((a,b) => new Date(a.date) - new Date(b.date)); // this sorts data by date ascending .
+
+    // else{ // else it will display all of them on by one by creating <li> 
         for(let i = 0; i < data.length; i++){
             const li = document.createElement("li");
-            li.innerHTML = `${data[i].topic} - ${data[i].date}`;
+
+            const formattedDate = new Date(data[i].date).toLocaleDateString("en-GB", {
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+                });
+            
+            li.innerHTML = `${data[i].topic} - ${formattedDate}`;
             ulList.appendChild(li);
         }
-    }
-}
-
+    }       
