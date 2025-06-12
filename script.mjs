@@ -6,7 +6,7 @@
 
 import { getUserIDs } from "./common.mjs";
 import { addData, getData, clearData } from "./storage.mjs";
-import{ addingToStorage, displayAgendas } from "./addingData.mjs";
+import{ addingToStorage, displayAgendas } from "./addingAndDisplaying.mjs";
 
 document.getElementById("form-data").style.display = "none"; // making the form hide as default
 
