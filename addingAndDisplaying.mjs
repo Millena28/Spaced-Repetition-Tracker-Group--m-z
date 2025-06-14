@@ -63,9 +63,10 @@ export function displayAgendas(currentUserId){
         return;
     }
     const today = new Date(); // today's date , later in filter we compare dates with today in case if they are in past
-
+    today.setHours(0,0,0,0);
     const upcomingItems = data.filter(item => { // filtering to see if any date is in the past so we don't get them in new variable
         const itemDate = new Date(item.date);
+        itemDate.setHours(0,0,0,0);
         return itemDate >= today;
     });
     if (upcomingItems.length === 0) { // checks in case after filtering all dates were in past and the length is === 0
